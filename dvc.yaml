@@ -12,6 +12,12 @@ stages:
     deps:
     - data/prepared
     - src/train.py
+    params:
+    - train.random_state
+    - train.split_val
+    - train.max_iter
+    - train.learning_rate_init
+    - train.batch_size
     metrics:
     - acc.json:
         cache: false
