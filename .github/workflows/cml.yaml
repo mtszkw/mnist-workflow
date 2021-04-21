@@ -55,5 +55,7 @@ jobs:
           dvc metrics diff --show-md master >> report.md
           dvc plots diff --target loss.json --show-vega master > vega.json
           vl2png vega.json -s 1.3 | cml-publish --md >> report.md
+          
+          git add acc.json loss.json
 
           cml-send-comment report.md
