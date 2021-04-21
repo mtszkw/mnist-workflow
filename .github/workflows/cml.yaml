@@ -68,4 +68,4 @@ jobs:
           git add acc.json loss.json
           git commit -m "Update acc.json and loss.json"
 
-          git push
+          git push -f
