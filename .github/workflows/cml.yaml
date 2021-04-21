@@ -1,0 +1,60 @@
+name: mnist-workflow
+on: [push]
+jobs:
+  run-workflow:
+    runs-on: [ubuntu-20.04]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+          
+      - name: Install dependencies
+        run: |
+          pipenv install
+          
+      - name: Prepare data
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          dvc pull data/mnist_train.csv.dvc
+          dvc pull data/mnist_test.csv.dvc
+          
+      - name: Train model
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dvc repro
+          # pipenv run python src/train.py data/prepared/
+
+      - name: Publish report
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Use DVC metrics diff to compare metrics to master
+          git fetch --prune --unshallow
+          dvc metrics diff --show-md master >> report.md
+        
+          # echo "## 1. Config" > report.md
+          # echo "\`\`\`yaml" >> report.md
+          # cat params.yaml >> report.md
+          # echo "\`\`\`" >> report.md
+          
+          # echo "## 2. Data" >> report.md
+          # cat data_shapes.log >> report.md
+
+          # echo "## 3. Training" >> report.md
+          # cml-publish train_history.png --md >> report.md
+          # cml-publish train_rmse-metric.png --md >> report.md
+          # cml-publish train_feature-importance.png --md >> report.md
+
+          cml-send-comment report.md
