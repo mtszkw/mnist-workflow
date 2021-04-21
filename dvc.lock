@@ -1,0 +1,36 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py data/mnist_train.csv data/mnist_test.csv
+    deps:
+    - path: data/mnist_test.csv
+      md5: f7aa04a4b094c016b7882d12986e1323
+      size: 18303650
+    - path: data/mnist_train.csv
+      md5: 04a378afedae4d1f329c0b5a5cfcea8c
+      size: 109640201
+    - path: src/prepare.py
+      md5: 96a78e4cdb35d4eb7ae005e8c34e5d48
+      size: 1808
+    outs:
+    - path: data/prepared
+      md5: c74ee4448468ff8beeefc2772ba6ed3f.dir
+      size: 439600512
+      nfiles: 4
+  train:
+    cmd: python src/train.py data/prepared acc.json loss.json
+    deps:
+    - path: data/prepared
+      md5: c74ee4448468ff8beeefc2772ba6ed3f.dir
+      size: 439600512
+      nfiles: 4
+    - path: src/train.py
+      md5: 9185905c8d52b2d7cf5341d8972390fe
+      size: 1804
+    outs:
+    - path: acc.json
+      md5: 60cafe3f9873d994349a2d87dcca4a35
+      size: 20
+    - path: loss.json
+      md5: 744905be679c8f8daaab173a16caecc2
+      size: 194

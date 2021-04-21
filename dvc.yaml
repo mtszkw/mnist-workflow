@@ -1,0 +1,20 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py data/mnist_train.csv data/mnist_test.csv
+    deps:
+    - data/mnist_test.csv
+    - data/mnist_train.csv
+    - src/prepare.py
+    outs:
+    - data/prepared
+  train:
+    cmd: python src/train.py data/prepared acc.json loss.json
+    deps:
+    - data/prepared
+    - src/train.py
+    metrics:
+    - acc.json:
+        cache: false
+    plots:
+    - loss.json:
+        cache: false

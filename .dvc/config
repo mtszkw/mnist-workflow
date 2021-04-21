@@ -1,0 +1,5 @@
+[core]
+    remote = s3-mnist
+['remote "s3-mnist"']
+    url = s3://mnist-workflow
+    region = eu-central-1

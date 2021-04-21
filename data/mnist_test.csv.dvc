@@ -1,0 +1,5 @@
+outs:
+- md5: f7aa04a4b094c016b7882d12986e1323
+  size: 18303650
+  path: mnist_test.csv
+  isexec: true
