@@ -1,7 +1,7 @@
 name: mnist-workflow
 on:
   pull_request:
-    types: [opened, edited]
+    types: [edited, opened, synchronize, reopened]
 jobs:
   run-workflow:
     runs-on: [ubuntu-20.04]
