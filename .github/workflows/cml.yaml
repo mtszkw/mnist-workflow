@@ -71,8 +71,6 @@ jobs:
           #git add acc.json loss.json
           #git commit -m "Update acc.json and loss.json"
 
-          echo ${GITHUB_REF}
-          echo ${GITHUB_REF#refs/heads/}
           echo ${GITHUB_HEAD_REF}
           
           #git push origin ${GITHUB_REF#refs/heads/}
