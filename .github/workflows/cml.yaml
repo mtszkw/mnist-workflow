@@ -1,5 +1,7 @@
 name: mnist-workflow
-on: [push]
+on:
+  pull_request:
+    types: [edited, opened, synchronize, reopened]
 jobs:
   run-workflow:
     runs-on: [ubuntu-20.04]
@@ -59,6 +61,7 @@ jobs:
           cml-send-comment report.md
           
       - name: Update metric files
+        continue-on-error: true
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
