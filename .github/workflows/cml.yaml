@@ -61,6 +61,7 @@ jobs:
           cml-send-comment report.md
           
       - name: Update metric files
+        continue-on-error: true
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
