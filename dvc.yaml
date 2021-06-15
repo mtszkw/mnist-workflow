@@ -8,7 +8,7 @@ stages:
     outs:
     - data/prepared
   train:
-    cmd: python src/train.py data/prepared acc.json loss.json
+    cmd: python src/train.py data/prepared data/metrics/master_acc.json data/metrics/master_loss.json
     deps:
     - data/prepared
     - src/train.py
@@ -19,8 +19,8 @@ stages:
     - train.learning_rate_init
     - train.batch_size
     metrics:
-    - acc.json:
+    - data/metrics/master_acc.json:
         cache: false
     plots:
-    - loss.json:
+    - data/metrics/master_loss.json:
         cache: false

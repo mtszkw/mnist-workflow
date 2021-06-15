@@ -55,7 +55,7 @@ jobs:
 
           echo "### 3. Training" >> report.md
           dvc metrics diff --show-md master >> report.md
-          dvc plots diff --target loss.json --show-vega master > vega.json
+          dvc plots diff --target data/metrics/master_loss.json --show-vega master > vega.json
           vl2png vega.json -s 1.3 | cml-publish --md >> report.md
 
           cml-send-comment report.md
@@ -68,7 +68,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          git add acc.json loss.json
+          git add data/metrics/master_acc.json data/metrics/master_loss.json
           git commit -m "Update acc.json and loss.json"
 
           echo ${GITHUB_HEAD_REF}
